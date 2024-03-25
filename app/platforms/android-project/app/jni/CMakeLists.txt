@@ -1,10 +1,28 @@
 cmake_minimum_required(VERSION 3.6)
 
-set(ANDROID_NDK_HOME "/Users/xitrix/Library/Android/sdk/ndk-bundle")
 set(PROJECT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../../../..)
 set(CMAKE_TOOLCHAIN_FILE ${PROJECT_PATH}/extern/vcpkg/scripts/buildsystems/vcpkg.cmake CACHE PATH "vcpkg toolchain file" FORCE)
 set(VCPKG_CHAINLOAD_TOOLCHAIN_FILE ${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake CACHE PATH "android toolchain file")
-#message(Toolchain!!!! ${CMAKE_TOOLCHAIN_FILE})
+
+if(DEFINED VCPKG_ROOT)
+    set(VCPKG_EXECUTABLE "${VCPKG_ROOT}/vcpkg")
+else ()
+    set(VCPKG_EXECUTABLE "${PROJECT_PATH}/extern/vcpkg/vcpkg")
+endif ()
+
+set(VCPKG_TARGET_TRIPLET arm64-android)
+get_filename_component(VCPKG_INSTALLED_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../build/libs/" ABSOLUTE)
+
+execute_process(
+        COMMAND ${VCPKG_EXECUTABLE} install --triplet ${VCPKG_TARGET_TRIPLET} --x-install-root ${VCPKG_INSTALLED_DIR}
+        WORKING_DIRECTORY ${PROJECT_PATH}
+        RESULT_VARIABLE VCPKG_RESULT
+)
+
+
+if(VCPKG_RESULT)
+    message(FATAL_ERROR "vcpkg install failed with error code ${VCPKG_RESULT}")
+endif()
 
 project(Moonlight)
 
