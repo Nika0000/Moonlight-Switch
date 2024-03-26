@@ -10,10 +10,17 @@
 #include <libretro-common/retro_timers.h>
 #include <cstring>
 
+#if defined(_WIN32)
+#include <windows.h>
+#include <winsock2.h>
+
+#else
 #include <arpa/inet.h>
 #include <net/if.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
+
+#endif
 
 #if defined(__SWITCH__)
 #include <switch.h>

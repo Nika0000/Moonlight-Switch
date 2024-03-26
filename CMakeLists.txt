@@ -50,7 +50,7 @@ add_definitions(
         -Dcimg_no_system_calls
         -DBRLS_I18N_PREFIX=\"main/\")
 
-if (PLATFORM_PSV OR PLATFORM_ANDROID)
+if (PLATFORM_PSV OR PLATFORM_ANDROID OR WIN32)
     set(USE_OPENSSL_CRYPTO ON)
 else ()
     set(USE_MBEDTLS_CRYPTO ON)

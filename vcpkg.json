@@ -11,12 +11,16 @@
     "opus",
     "expat",
     {
+      "name": "sdl2",
+      "platform": "!android | !ios"
+    },
+    {
       "name": "mbedtls",
-      "platform": "!android"
+      "platform": "!android | !windows"
     },
     {
       "name": "openssl",
-      "platform": "android"
+      "platform": "android | windows"
     }
   ],
   "overrides": [

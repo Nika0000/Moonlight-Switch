@@ -91,6 +91,8 @@ int FFmpegVideoDecoder::setup(int video_format, int width, int height,
 #else
    m_decoder_context->pix_fmt = AV_PIX_FMT_NV12;
 #endif
+#elif define(_WIN32)
+   m_decoder_context->pix_fmt = AV_PIX_FMT_YUV420P;
 #else
     m_decoder_context->pix_fmt = AV_PIX_FMT_NV12;
 #endif
@@ -113,6 +115,8 @@ int FFmpegVideoDecoder::setup(int video_format, int width, int height,
         m_frames[i]->format = AV_PIX_FMT_TX1;
 #elif defined(PLATFORM_ANDROID)
         m_frames[i]->format = AV_PIX_FMT_MEDIACODEC;
+#elif defined(_WIN32)
+        m_frames[i]->format = AV_PIX_FMT_YUV420P;
 #else
         m_frames[i]->format = AV_PIX_FMT_NV12;
 #endif
@@ -155,6 +159,12 @@ int FFmpegVideoDecoder::setup(int video_format, int width, int height,
 #elif defined(PLATFORM_ANDROID)
         if ((err = av_hwdevice_ctx_create(&hw_device_ctx, AV_HWDEVICE_TYPE_MEDIACODEC, NULL, NULL, 0)) < 0) {
             brls::Logger::error("FFmpeg: Error initializing hardware decoder - {}",  av_err2str(err));
+            return -1;
+        }
+        m_decoder_context->hw_device_ctx = av_buffer_ref(hw_device_ctx);
+#elif defined(_WIN32)
+        if ((err = av_hwdevice_ctx_create(&hw_device_ctx, AV_HWDEVICE_TYPE_D3D11VA, NULL, NULL, 0)) < 0) {
+            brls::Logger::error("FFmpeg: Error initializing hardware decoder - {}",  err);
             return -1;
         }
         m_decoder_context->hw_device_ctx = av_buffer_ref(hw_device_ctx);
