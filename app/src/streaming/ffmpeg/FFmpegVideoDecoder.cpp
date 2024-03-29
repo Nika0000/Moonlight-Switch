@@ -83,6 +83,9 @@ int FFmpegVideoDecoder::setup(int video_format, int width, int height,
         m_decoder_context->thread_count = decoder_threads;
     }
 
+    m_decoder_context->flags |= AV_CODEC_FLAG_OUTPUT_CORRUPT;
+    m_decoder_context->flags2 |= AV_CODEC_FLAG2_SHOW_ALL;
+
     m_decoder_context->width = width;
     m_decoder_context->height = height;
 #ifdef __SWITCH__
@@ -91,7 +94,7 @@ int FFmpegVideoDecoder::setup(int video_format, int width, int height,
 #else
    m_decoder_context->pix_fmt = AV_PIX_FMT_NV12;
 #endif
-#elif define(_WIN32)
+#elif defined(_WIN32)
    m_decoder_context->pix_fmt = AV_PIX_FMT_YUV420P;
 #else
     m_decoder_context->pix_fmt = AV_PIX_FMT_NV12;
@@ -163,7 +166,7 @@ int FFmpegVideoDecoder::setup(int video_format, int width, int height,
         }
         m_decoder_context->hw_device_ctx = av_buffer_ref(hw_device_ctx);
 #elif defined(_WIN32)
-        if ((err = av_hwdevice_ctx_create(&hw_device_ctx, AV_HWDEVICE_TYPE_D3D11VA, NULL, NULL, 0)) < 0) {
+        if ((err = av_hwdevice_ctx_create(&hw_device_ctx, AV_HWDEVICE_TYPE_DXVA2, NULL, NULL, 0)) < 0) {
             brls::Logger::error("FFmpeg: Error initializing hardware decoder - {}",  err);
             return -1;
         }

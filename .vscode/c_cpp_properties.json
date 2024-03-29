@@ -25,9 +25,7 @@
                 "/opt/devkitpro/devkitA64/aarch64-none-elf/include"
             ],
             "defines": [
-                "__SWITCH__",
-                // "USE_DEKO3D",
-                // "BOREALIS_USE_DEKO3D"
+                "__SWITCH__"
             ],
             "macFrameworkPath": [
                 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
@@ -36,6 +34,25 @@
             "cStandard": "c17",
             "cppStandard": "c++20",
             "intelliSenseMode": "gcc-arm64"
+        },
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/build/pc/vcpkg_installed/x64-windows/include/**"
+            ],
+            "defines": [
+                "_WIN32",
+                "_DEBUG",
+                "USE_OPENSSL_CRYPTO",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.20348.0",
+            "compilerPath": "C:/ProgramData/mingw64/mingw64/bin/gcc.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "${default}"
         }
     ],
     "version": 4

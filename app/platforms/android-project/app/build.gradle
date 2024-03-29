@@ -8,13 +8,14 @@ else {
 }
 
 android {
-    compileSdkVersion 31
+    namespace "com.borealis.demo"
+    compileSdk 34
     defaultConfig {
         if (buildAsApplication) {
             applicationId "com.borealis.demo"
         }
         minSdkVersion 16
-        targetSdkVersion 31
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         // borealis need at least ndk r22 (r21 don't have std::filesystem support)
@@ -57,7 +58,9 @@ android {
     lintOptions {
         abortOnError false
     }
-    
+    buildToolsVersion '34.0.0'
+    ndkVersion '22.1.7171670'
+
     if (buildAsLibrary) {
         libraryVariants.all { variant ->
             variant.outputs.each { output ->
