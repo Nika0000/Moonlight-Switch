@@ -14,7 +14,7 @@ android {
         if (buildAsApplication) {
             applicationId "com.borealis.demo"
         }
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -26,11 +26,19 @@ android {
         ndkVersion "22.1.7171670"
         externalNativeBuild {
              cmake {
-                 arguments "-DANDROID_APP_PLATFORM=android-16", "-DANDROID_STL=c++_static"
+                 arguments "-DANDROID_APP_PLATFORM=android-21", "-DANDROID_STL=c++_static"
                  // abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-                 abiFilters 'arm64-v8a'
+                 abiFilters 'armeabi-v7a', 'arm64-v8a'
                  version = '3.16.0+'
              }
+        }
+    }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi-v7a', 'arm64-v8a'
+            universalApk true //generate an additional APK that contains all the ABIs
         }
     }
     buildTypes {
@@ -53,11 +61,12 @@ android {
                  version = '3.16.0+'
              }
         }
-       
+
     }
     lintOptions {
         abortOnError false
     }
+    
     buildToolsVersion '34.0.0'
     ndkVersion '22.1.7171670'
 

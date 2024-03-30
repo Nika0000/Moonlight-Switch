@@ -2,15 +2,28 @@ cmake_minimum_required(VERSION 3.6)
 
 set(PROJECT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../../../..)
 set(CMAKE_TOOLCHAIN_FILE ${PROJECT_PATH}/extern/vcpkg/scripts/buildsystems/vcpkg.cmake CACHE PATH "vcpkg toolchain file" FORCE)
-set(VCPKG_CHAINLOAD_TOOLCHAIN_FILE ${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake CACHE PATH "android toolchain file")
-
+set(VCPKG_CHAINLOAD_TOOLCHAIN_FILE $ENV{ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake CACHE PATH "android toolchain file")
 if(DEFINED VCPKG_ROOT)
     set(VCPKG_EXECUTABLE "${VCPKG_ROOT}/vcpkg")
 else ()
     set(VCPKG_EXECUTABLE "${PROJECT_PATH}/extern/vcpkg/vcpkg")
 endif ()
 
-set(VCPKG_TARGET_TRIPLET arm64-android)
+if(DEFINED ANDROID_ABI)
+    message("Building for ABI: ${ANDROID_ABI}")
+else()
+    message(FATAL_ERROR "ANDROID_ABI is not defined.")
+endif()
+
+if(ANDROID_ABI STREQUAL "armeabi-v7a")
+    set(VCPKG_TARGET_TRIPLET arm-android)
+elseif (ANDROID_ABI STREQUAL "arm64-v8a")
+    set(VCPKG_TARGET_TRIPLET arm64-android)
+else ()
+    message(FATAL_ERROR "Unsupported Android ABI: ${ANDROID_ABI}")
+endif ()
+
+
 get_filename_component(VCPKG_INSTALLED_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../build/libs/" ABSOLUTE)
 
 execute_process(
@@ -26,10 +39,11 @@ endif()
 
 project(Moonlight)
 
-# armeabi-v7a requires cpufeatures library
-# include(AndroidNdkModules)
-# android_ndk_import_module_cpufeatures()
-
+if(ANDROID_ABI STREQUAL "armeabi-v7a")
+    # armeabi-v7a requires cpufeatures library
+    include(AndroidNdkModules)
+    android_ndk_import_module_cpufeatures()
+endif ()
 
 # SDL sources are in a subfolder named "SDL"
 add_subdirectory(SDL)
