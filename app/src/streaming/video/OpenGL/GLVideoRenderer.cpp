@@ -289,13 +289,16 @@ void GLVideoRenderer::draw(NVGcontext* vg, int width, int height,
     for (int i = 0; i < currentFrameTypePlanesNum; i++) {
         uint8_t* image = frame->data[i];
         glActiveTexture(GL_TEXTURE0 + i);
-		int real_width = frame->linesize[i] / currentPlanes[i][0];
+	    int real_width = frame->linesize[i] / currentPlanes[i][0];
         glBindTexture(GL_TEXTURE_2D, m_texture_id[i]);
         glPixelStorei(GL_UNPACK_ROW_LENGTH, real_width);
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, textureWidth[i],
                         textureHeight[i], currentPlanes[i][3], GL_UNSIGNED_BYTE, image);
         glActiveTexture(GL_TEXTURE0);
     }
+
+    // Reset row length to default
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 

@@ -58,7 +58,11 @@ add_subdirectory(SDL)
 
 
 SET(PLATFORM_ANDROID ON CACHE BOOL "")
-SET(LIBROMFS_PREBUILT_GENERATOR "${PROJECT_PATH}/libromfs-generator" CACHE STRING "")
+
+find_program(LIBROMFS_PREBUILT_GENERATOR
+    NAMES libromfs-generator
+    PATHS ${PROJECT_PATH}
+)
 
 if (NOT EXISTS "${LIBROMFS_PREBUILT_GENERATOR}")
     message(FATAL_ERROR "libromfs-generator has not been built, please refer to borealis/build_libromfs_generator.sh for more information")
