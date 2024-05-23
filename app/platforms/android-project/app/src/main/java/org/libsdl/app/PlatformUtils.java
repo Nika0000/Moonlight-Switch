@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -17,6 +18,8 @@ import android.os.Message;
 import android.provider.Settings;
 import android.view.Window;
 import android.view.WindowManager;
+
+import java.util.Locale;
 
 public class PlatformUtils {
     public static boolean isBatterySupported() {
@@ -48,7 +51,7 @@ public class PlatformUtils {
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = context.registerReceiver(null, filter);
 
-        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        int status = batteryStatus != null ? batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1) : BatteryManager.BATTERY_STATUS_UNKNOWN;
         return status == BatteryManager.BATTERY_STATUS_CHARGING ||
                 status == BatteryManager.BATTERY_STATUS_FULL;
     }
@@ -121,5 +124,19 @@ public class PlatformUtils {
         WindowManager.LayoutParams lp = window.getAttributes();
         if (lp.screenBrightness < 0) return getSystemScreenBrightness(activity);
         return lp.screenBrightness;
+    }
+
+    public static boolean isNightMode() {
+        Context context = SDLActivity.getContext();
+
+        int isNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        return isNightMode == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    public static String getLocale() {
+        Context context = SDLActivity.getContext();
+
+        Locale currentLocale = context.getResources().getConfiguration().locale;
+        return currentLocale.toLanguageTag();
     }
 }

@@ -3,10 +3,15 @@ cmake_minimum_required(VERSION 3.6)
 set(PROJECT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../../../..)
 set(CMAKE_TOOLCHAIN_FILE ${PROJECT_PATH}/extern/vcpkg/scripts/buildsystems/vcpkg.cmake CACHE PATH "vcpkg toolchain file" FORCE)
 set(VCPKG_CHAINLOAD_TOOLCHAIN_FILE $ENV{ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake CACHE PATH "android toolchain file")
-if(DEFINED VCPKG_ROOT)
-    set(VCPKG_EXECUTABLE "${VCPKG_ROOT}/vcpkg")
-else ()
-    set(VCPKG_EXECUTABLE "${PROJECT_PATH}/extern/vcpkg/vcpkg")
+
+# Find vcpkg
+find_program(VCPKG
+        NAMES vcpkg
+        PATHS ${PROJECT_PATH}/extern/vcpkg/
+)
+
+if (NOT VCPKG)
+    message(FATAL_ERROR "vcpkg not found")
 endif ()
 
 if(DEFINED ANDROID_ABI)
@@ -27,7 +32,7 @@ endif ()
 get_filename_component(VCPKG_INSTALLED_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../build/libs/" ABSOLUTE)
 
 execute_process(
-        COMMAND ${VCPKG_EXECUTABLE} install --triplet ${VCPKG_TARGET_TRIPLET} --x-install-root ${VCPKG_INSTALLED_DIR}
+        COMMAND ${VCPKG} install --triplet ${VCPKG_TARGET_TRIPLET} --x-install-root ${VCPKG_INSTALLED_DIR}
         WORKING_DIRECTORY ${PROJECT_PATH}
         RESULT_VARIABLE VCPKG_RESULT
 )
@@ -60,8 +65,8 @@ add_subdirectory(SDL)
 SET(PLATFORM_ANDROID ON CACHE BOOL "")
 
 find_program(LIBROMFS_PREBUILT_GENERATOR
-    NAMES libromfs-generator
-    PATHS ${PROJECT_PATH}
+        NAMES libromfs-generator
+        PATHS ${PROJECT_PATH}
 )
 
 if (NOT EXISTS "${LIBROMFS_PREBUILT_GENERATOR}")

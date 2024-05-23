@@ -100,7 +100,7 @@ ATTENTION! Currently there is no way to select language inside of app, it takes 
 cd 'folder/to/store/the/sources'
 
 # Clone this repo with submodules
-git clone https://github.com/XITRIX/Moonlight-Switch.git --recursive
+git clone https://github.com/Nika0000/Moonlight-Switch.git --recursive
 cd Moonlight-Switch
 ```
 
