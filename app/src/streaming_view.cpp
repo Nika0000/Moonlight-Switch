@@ -151,6 +151,10 @@ StreamingView::StreamingView(const Host& host, const AppInfo& app) : host(host),
             ->getInputManager()
             ->getKeyboardKeyStateChanged()
             ->subscribe([this, host, app](brls::KeyState state) {
+                if (state.key == BRLS_KBD_KEY_AC_BACK && state.pressed){
+                    auto overlay = new IngameOverlay(this);
+                    Application::pushActivity(new Activity(overlay));
+                }
                 if (state.key == BRLS_KBD_KEY_ESCAPE) {
                     static std::chrono::high_resolution_clock::time_point
                         clock_counter;

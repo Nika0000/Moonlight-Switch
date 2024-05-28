@@ -38,6 +38,8 @@ StreamingInputOverlay::StreamingInputOverlay(StreamingView* streamView)
                               if (this->isKeyboardOpen) {
                                   this->toggleKeyboard();
                                   return true;
+                              } else {
+                                  Application::popActivity();
                               }
                               return false;
                           });
@@ -51,7 +53,6 @@ void StreamingInputOverlay::onFocusGained() {
 void StreamingInputOverlay::draw(NVGcontext* vg, float x, float y, float width,
                                  float height, Style style, FrameContext* ctx) {
     Box::draw(vg, x, y, width, height, style, ctx);
-
     // Keyboard
     if (keyboard) {
         static KeyboardState oldKeyboardState;
