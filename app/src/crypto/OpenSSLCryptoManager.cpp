@@ -238,8 +238,10 @@ static Data _key_data(EVP_PKEY* pk) {
 
 static bool _generate_new_cert_key_pair() {
 //    CRYPTO_mem_ctrl(CRYPTO_MEM_CHECK_ON);
+#ifndef _WIN32
     BIO *bio_err = BIO_new_fp(stderr, BIO_NOCLOSE);
-    
+#endif
+
     X509* cert = X509_new();
     EVP_PKEY* pk = EVP_PKEY_new();
     BIGNUM* bne = BN_new();
@@ -278,9 +280,11 @@ static bool _generate_new_cert_key_pair() {
     X509_sign(cert, pk, EVP_sha256());
     
     BN_free(bne);
-    
+
+#ifndef _WIN32
     BIO_free(bio_err);
-    
+#endif
+
     m_cert = _cert_data(cert);
     m_key = _key_data(pk);
     

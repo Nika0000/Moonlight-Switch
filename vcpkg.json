@@ -7,17 +7,42 @@
     {
       "name": "curl",
       "default-features": false,
-      "features": ["mbedtls", "sectransp", "non-http"]
+      "features": [
+        "mbedtls",
+        "sectransp",
+        "non-http"
+      ],
+      "platform": "!windows"
+    },
+    {
+      "name": "curl",
+      "features": [
+        "openssl"
+      ],
+      "platform": "windows"
     },
     "ffmpeg",
     "jansson",
     "libpng",
     "opus",
     "expat",
-    "mbedtls"
+    {
+      "name": "mbedtls",
+      "platform": "!windows"
+    },
+    {
+      "name": "openssl",
+      "platform": "windows"
+    }
   ],
   "overrides": [
-    {"name": "mbedtls", "version": "2.28.8"},
-    { "name": "curl", "version": "8.7.1" }
+    {
+      "name": "mbedtls",
+      "version": "2.28.8"
+    },
+    {
+      "name": "curl",
+      "version": "8.7.1"
+    }
   ]
 }

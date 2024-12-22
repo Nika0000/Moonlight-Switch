@@ -10,12 +10,15 @@
 #include <libretro-common/retro_timers.h>
 #include <cstring>
 
+#ifndef _WIN32
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#endif
+
 #include <fmt/core.h>
 
-#ifndef PLATFORM_PSV
+#if !defined(PLATFORM_PSV) && !defined(_WIN32)
 #include <net/if.h>
 #include <sys/ioctl.h>
 #endif

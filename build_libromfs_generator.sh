@@ -25,7 +25,7 @@ BUILD_DIR="build_libromfs_generator"
 cd "${PROJECT_PATH}"
 
 # build libromfs-generator
-cmake -B ${BUILD_DIR} "${LIBROMFS_PATH}"
+cmake -B ${BUILD_DIR} "${LIBROMFS_PATH}" -G "Unix Makefiles"
 make -C ${BUILD_DIR}
 
 # put libromfs-generator under the jni folder

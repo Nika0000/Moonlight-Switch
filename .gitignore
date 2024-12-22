@@ -2,6 +2,7 @@ cmake-build-debug
 .DS_Store
 build_switch
 libromfs-generator
+libromfs-generator.exe
 build-ios
 build
 vcpkg_installed

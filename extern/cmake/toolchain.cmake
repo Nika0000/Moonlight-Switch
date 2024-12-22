@@ -2,10 +2,20 @@ message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
 
 function(check_libromfs_generator)
     if (NOT DEFINED LIBROMFS_PREBUILT_GENERATOR OR NOT EXISTS "${LIBROMFS_PREBUILT_GENERATOR}")
-        if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/libromfs-generator")
-            set(LIBROMFS_PREBUILT_GENERATOR "${CMAKE_CURRENT_SOURCE_DIR}/libromfs-generator" PARENT_SCOPE)
+        find_program(LIBROMFS_GENERATOR
+            NAME libromfs-generator libromfs-generator.exe
+            HINTS "${CMAKE_CURRENT_SOURCE_DIR}"
+        )
+
+
+        if (LIBROMFS_GENERATOR)
+            set(LIBROMFS_PREBUILT_GENERATOR "${LIBROMFS_GENERATOR}" PARENT_SCOPE)
         else ()
-            message(FATAL_ERROR "libromfs-generator has not been built, please refer to borealis/build_libromfs_generator.sh for more information")
+            message(FATAL_ERROR
+                 "libromfs-generator could not be found.\n"
+                 "Searched for: libromfs-generator or libromfs-generator.exe\n"
+                 "Expacted in:  ${CMAKE_CURRENT_SOURCE_DIR}\n"
+                 "Please build the generator first. Refer to borealis/build_libromfs_generator.sh for more information.")
         endif ()
     endif()
 endfunction()
@@ -27,7 +37,11 @@ if (PLATFORM_DESKTOP)
     set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -g2 -ggdb -Wall")
     set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
     set(USE_SDL2 ON)
-    set(USE_GLES3 ON)
+    if(WIN32)
+        set(USE_D3D11 ON)
+    else ()
+        set(USE_GLES3 ON)
+    endif()
     set(USE_LIBROMFS ON)
     check_libromfs_generator()
 elseif (PLATFORM_IOS OR PLATFORM_TVOS)
@@ -114,6 +128,9 @@ endif ()
 if (USE_DEKO3D)
     message(STATUS "USE_DEKO3D")
     set(BOREALIS_USE_DEKO3D ON)
+elseif(USE_D3D11)
+    message(STATUS "USE_D3D11")
+    set(BOREALIS_USE_D3D11 ON)
 elseif (USE_GL2)
     message(STATUS "USE_GL2")
     add_definitions(-DUSE_GL2)

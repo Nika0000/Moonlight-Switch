@@ -1,7 +1,7 @@
 #include "SwitchMoonlightSessionDecoderAndRenderProvider.hpp"
 #include "FFmpegVideoDecoder.hpp"
-#include "Settings.hpp"
 #include "SDLAudiorenderer.hpp"
+#include "Settings.hpp"
 
 #ifdef __SWITCH__
 #include "AudrenAudioRenderer.hpp"
@@ -13,8 +13,10 @@
 #include "MetalVideoRenderer.hpp"
 #elif defined(USE_GL_RENDERER)
 #include "GLVideoRenderer.hpp"
+#elif defined(USE_D3D11_RENDERER)
+#include "D3D11VideoRenderer.hpp"
 #else
-#error No renderer selected, enable USE_GL_RENDERER or USE_METAL_RENDERER
+#error No renderer selected, enable USE_GL_RENDERER or USE_METAL_RENDERER or USE_D3D11_RENDERER
 #endif
 
 IFFmpegVideoDecoder*
@@ -30,6 +32,8 @@ SwitchMoonlightSessionDecoderAndRenderProvider::video_renderer() {
     return new MetalVideoRenderer();
 #elif defined(USE_GL_RENDERER)
     return new GLVideoRenderer();
+#elif defined(USE_D3D11_RENDERER)
+    return new D3D11VideoRenderer();
 #endif
 }
 

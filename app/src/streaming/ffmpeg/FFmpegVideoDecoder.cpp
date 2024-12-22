@@ -9,6 +9,16 @@ extern "C" {
 }
 #endif
 
+#ifdef _WIN32
+#include <borealis/platforms/driver/d3d11.hpp>
+
+extern std::unique_ptr<brls::D3D11Context> D3D11_CONTEXT;
+
+extern "C" {
+#include <libavutil/hwcontext_d3d11va.h>
+}
+#endif
+
 // Disables the deblocking filter at the cost of image quality
 #define DISABLE_LOOP_FILTER 0x1
 // Uses the low latency decode flag (disables multithreading)
@@ -35,6 +45,21 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
 #endif
 
 FFmpegVideoDecoder::FFmpegVideoDecoder() {
+#ifdef _WIN32
+    AVBufferRef* hw_device_ctx = av_hwdevice_ctx_alloc(AV_HWDEVICE_TYPE_D3D11VA);
+    AVHWDeviceContext* ctx = (AVHWDeviceContext*)hw_device_ctx->data;
+    AVD3D11VADeviceContext* d3d11_device_ctx = (AVD3D11VADeviceContext*)ctx->hwctx;
+
+    ID3D11DeviceContext*    m_d3d11_device_context;
+    D3D11_CONTEXT->getDevice()->GetImmediateContext(&m_d3d11_device_context);
+
+    d3d11_device_ctx->device = D3D11_CONTEXT->getDevice();
+    d3d11_device_ctx->device_context = m_d3d11_device_context;
+    
+    if(av_hwdevice_ctx_init(hw_device_ctx) < 0){
+        brls::Logger::error("Failed to create specified DirectX video device");
+    }
+#endif
 //    AVBufferRef* deviceRef = av_hwdevice_ctx_alloc(AV_HWDEVICE_TYPE_MEDIACODEC);
 //    AVHWDeviceContext* ctx = (AVHWDeviceContext*)deviceRef->data;
 //    AVMediaCodecDeviceContext* hwctx = (AVMediaCodecDeviceContext*)ctx->hwctx;
@@ -158,6 +183,8 @@ int FFmpegVideoDecoder::setup(int video_format, int width, int height,
         m_frames[i]->format = AV_PIX_FMT_NVTEGRA;
 #elif defined(PLATFORM_ANDROID)
         m_frames[i]->format = AV_PIX_FMT_MEDIACODEC;
+#elif defined(_WIN32)
+        m_frames[i]->format = AV_PIX_FMT_D3D11;
 #else
         if (video_format & VIDEO_FORMAT_MASK_10BIT)
             m_frames[i]->format = AV_PIX_FMT_P010;
@@ -199,6 +226,8 @@ int FFmpegVideoDecoder::setup(int video_format, int width, int height,
         AVHWDeviceType hwType = AV_HWDEVICE_TYPE_MEDIACODEC;
 #elif defined(PLATFORM_APPLE)
         AVHWDeviceType hwType = AV_HWDEVICE_TYPE_VIDEOTOOLBOX;
+#elif defined(_WIN32)
+        AVHWDeviceType hwType = AV_HWDEVICE_TYPE_D3D11VA;
 #else
         AVHWDeviceType hwType = AV_HWDEVICE_TYPE_NONE;
 #endif
@@ -370,7 +399,7 @@ AVFrame* FFmpegVideoDecoder::get_frame(bool native_frame) {
     }
 
     if (hw_device_ctx) {
-#if defined(BOREALIS_USE_DEKO3D) || defined(PLATFORM_ANDROID) || defined(USE_METAL_RENDERER)
+#if defined(BOREALIS_USE_DEKO3D) || defined(PLATFORM_ANDROID) || defined(USE_METAL_RENDERER) || defined(USE_D3D11_RENDERER)
         // DEKO decoder will work with hardware frame
         // Android already produce software Frame
         resultFrame = decodeFrame;

@@ -29,6 +29,8 @@ include(${EXTERN_PATH}/cmake/toolchain.cmake)
 if (PLATFORM_IOS OR PLATFORM_TVOS)
     # set(USE_METAL_RENDERER ON)
     set(USE_GL_RENDERER ON)
+elseif(WIN32)
+    set(USE_D3D11_RENDERER ON)
 else()
     set(USE_GL_RENDERER ON)
 endif ()
@@ -57,7 +59,7 @@ add_definitions(
         -Dcimg_no_system_calls
         -DBRLS_I18N_PREFIX=\"main/\")
 
-if (PLATFORM_PSV OR PLATFORM_ANDROID)
+if (PLATFORM_PSV OR PLATFORM_ANDROID OR WIN32)
     set(USE_OPENSSL_CRYPTO ON)
 else ()
     set(USE_MBEDTLS_CRYPTO ON)
@@ -88,8 +90,8 @@ file(GLOB_RECURSE MAIN_SRC app/src/*.cpp)
 set(PLATFORM_OPTION)
 if (PLATFORM_DESKTOP)
     if (WIN32)
-        configure_file("${CMAKE_SOURCE_DIR}/app/resource.rc.in" "${CMAKE_BINARY_DIR}/resource.rc")
-        list(APPEND MAIN_SRC ${CMAKE_BINARY_DIR}/resource.rc)
+      #  configure_file("${CMAKE_SOURCE_DIR}/app/resource.rc.in" "${CMAKE_BINARY_DIR}/resource.rc")
+      #  list(APPEND MAIN_SRC ${CMAKE_BINARY_DIR}/resource.rc)
     elseif (BUNDLE_MACOS_APP)
         # list(APPEND MAIN_SRC ${CMAKE_SOURCE_DIR}/app/borealis.icns)
     endif ()
@@ -160,27 +162,29 @@ if (PLATFORM_DESKTOP)
         )
     endif ()
 
-    list(APPEND google_angle_libs 
-        ${CMAKE_CURRENT_SOURCE_DIR}/extern/borealis/library/lib/extern/angle/mac/libEGL.dylib
-        ${CMAKE_CURRENT_SOURCE_DIR}/extern/borealis/library/lib/extern/angle/mac/libGLESv2.dylib
-    )
+    if(NOT WIN32)
+        list(APPEND google_angle_libs 
+            ${CMAKE_CURRENT_SOURCE_DIR}/extern/borealis/library/lib/extern/angle/mac/libEGL.dylib
+            ${CMAKE_CURRENT_SOURCE_DIR}/extern/borealis/library/lib/extern/angle/mac/libGLESv2.dylib
+        )
 
-    set_property(
-        SOURCE ${google_angle_libs}
-        PROPERTY MACOSX_PACKAGE_LOCATION "Frameworks"
-    )
+        set_property(
+            SOURCE ${google_angle_libs}
+            PROPERTY MACOSX_PACKAGE_LOCATION "Frameworks"
+        )
 
-    target_sources(${PROJECT_NAME} PRIVATE
-        ${google_angle_libs}
-    )
+        target_sources(${PROJECT_NAME} PRIVATE
+            ${google_angle_libs}
+        )
+        
+        target_link_libraries(${PROJECT_NAME} PRIVATE 
+            ${google_angle_libs}
+        )
+    endif ()
 
     set_target_properties(${PROJECT_NAME} PROPERTIES
         INSTALL_RPATH "@executable_path/../Frameworks"
         XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@executable_path/../Frameworks"
-    )
-
-    target_link_libraries(${PROJECT_NAME} PRIVATE 
-        ${google_angle_libs}
     )
 
     if (NOT USE_LIBROMFS)
@@ -279,6 +283,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         app/src/streaming/video/deko3d
         app/src/streaming/video/OpenGL
         app/src/streaming/video/Metal
+        app/src/streaming/video/D3D11
         app/src/utils
         extern/CImg
         ${MBEDTLS_INCLUDE_DIRS}
@@ -287,7 +292,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE -ffunction-sections -fdata-sectio
 
 find_package(CURL REQUIRED)
 #find_package(MbedTLS REQUIRED)
-if(NOT PLATFORM_ANDROID)
+if(NOT PLATFORM_ANDROID AND NOT WIN32)
     find_package(SDL2 REQUIRED)
 endif()
 find_package(Jansson REQUIRED)
@@ -371,6 +376,11 @@ if (USE_METAL_RENDERER)
     set(SUPPORT_HDR ON)
     add_definitions(-DUSE_METAL_RENDERER)
 endif ()
+
+if(USE_D3D11_RENDERER)
+    set(SUPPORT_HDR ON)
+    add_definitions(-DUSE_D3D11_RENDERER)
+endif()
 
 if (SUPPORT_HDR)
     add_definitions(-DSUPPORT_HDR)
