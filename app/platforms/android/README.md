@@ -11,7 +11,7 @@ Theoretically, it supports Android API 16 and later (Android 4.1+), but I have o
 ## Building
 
 ```shell
-cd android-project
+cd android
 ```
 
 On the Android platform, borealis uses libromfs to package all resource files directly into the shared library. We need to build the libromfs-generator first.

@@ -9,7 +9,7 @@ borealis 的安卓移植遵循 SDL 的文档：[SDL/docs](https://github.com/lib
 ## 构建
 
 ```shell
-cd android-project
+cd android
 ```
 
 在安卓平台，borealis 使用 libromfs 将所有资源文件直接打包到共享库中，我们需要先构建 libromfs-generator。
