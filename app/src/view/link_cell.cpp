@@ -5,7 +5,7 @@
 //  Created by Даниил Виноградов on 21.11.2021.
 //
 
-#include "link_cell.hpp"
+#include "view/link_cell.hpp"
 
 using namespace brls;
 

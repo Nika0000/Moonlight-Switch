@@ -5,7 +5,7 @@
 //  Created by Даниил Виноградов on 14.06.2021.
 //
 
-#include "keyboard_view.hpp"
+#include "view/keyboard_view.hpp"
 #include "Settings.hpp"
 #include <chrono>
 #include <cmath>

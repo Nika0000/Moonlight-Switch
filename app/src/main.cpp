@@ -15,12 +15,14 @@
 #include <borealis.hpp>
 #include <string>
 
-#include "add_host_tab.hpp"
-#include "host_tab.hpp"
-#include "link_cell.hpp"
-#include "main_activity.hpp"
-#include "main_tabs_view.hpp"
-#include "settings_tab.hpp"
+#include "fragment/add_host_tab.hpp"
+#include "fragment/host_tab.hpp"
+#include "view/link_cell.hpp"
+#include "activity/main_activity.hpp"
+#include "view/main_tabs_view.hpp"
+#include "fragment/settings_tab.hpp"
+#include "view/auto_tab_frame.hpp"
+#include "view/svg_image.hpp"
 
 #include "DiscoverManager.hpp"
 #include "MoonlightSession.hpp"
@@ -29,11 +31,12 @@
 
 #ifdef _WIN32
 #include <SDL.h>
+#include <Windows.h>
 #define SDL_MAIN
 #endif
 
 #include <SDL_main.h>
-#include <main_args.hpp>
+#include <utils/main_args.hpp>
 
 using namespace brls::literals; // for _i18n
 
@@ -88,6 +91,10 @@ int main(int argc, char* argv[]) {
     brls::Application::registerXMLView("HostTab", HostTab::create);
     brls::Application::registerXMLView("AddHostTab", AddHostTab::create);
     brls::Application::registerXMLView("SettingsTab", SettingsTab::create);
+
+    // Register extended views
+    brls::Application::registerXMLView("AutoTabFrame", AutoTabFrame::create);
+    brls::Application::registerXMLView("SVGImage", SVGImage::create);
 
     // Add custom values to the theme
     brls::Theme::getLightTheme().addColor("captioned_image/caption",

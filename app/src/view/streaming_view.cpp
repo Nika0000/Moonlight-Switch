@@ -9,12 +9,12 @@
 #include <borealis/platforms/switch/switch_input.hpp>
 #endif
 
-#include "streaming_view.hpp"
+#include "view/streaming_view.hpp"
 #include "InputManager.hpp"
 #include "click_gesture_recognizer.hpp"
-#include "helper.hpp"
-#include "ingame_overlay_view.hpp"
-#include "streaming_input_overlay.hpp"
+#include "utils/helper.hpp"
+#include "view/ingame_overlay_view.hpp"
+#include "view/streaming_input_overlay.hpp"
 #include "two_finger_scroll_recognizer.hpp"
 #include <Limelight.h>
 #include <chrono>

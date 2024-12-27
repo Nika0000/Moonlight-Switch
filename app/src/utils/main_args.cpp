@@ -5,9 +5,9 @@
 //  Created by XITRIX on 22.01.2024.
 //
 
-#include "main_args.hpp"
+#include "utils/main_args.hpp"
 #include <borealis.hpp>
-#include "streaming_view.hpp"
+#include "view/streaming_view.hpp"
 
 #ifdef __SWITCH__
 #include <switch.h>

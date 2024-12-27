@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "link_cell.hpp"
+#include "view/link_cell.hpp"
 #include <borealis.hpp>
 
 class AboutTab : public brls::Box {

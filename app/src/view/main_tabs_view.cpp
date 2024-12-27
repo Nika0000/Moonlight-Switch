@@ -5,12 +5,12 @@
 //  Created by XITRIX on 26.05.2021.
 //
 
-#include "main_tabs_view.hpp"
+#include "view/main_tabs_view.hpp"
 #include "Settings.hpp"
-#include "about_tab.hpp"
-#include "add_host_tab.hpp"
-#include "host_tab.hpp"
-#include "settings_tab.hpp"
+#include "fragment/about_tab.hpp"
+#include "fragment/add_host_tab.hpp"
+#include "fragment/host_tab.hpp"
+#include "fragment/settings_tab.hpp"
 
 MainTabs::MainTabs() {
     favoriteTab = new FavoriteTab();

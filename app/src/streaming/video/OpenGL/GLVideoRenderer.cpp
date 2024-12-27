@@ -201,13 +201,20 @@ void GLVideoRenderer::initialize(AVFrame* frame) {
 }
 
 void GLVideoRenderer::bindTexture(int id) {
-    float borderColorInternal[] = {borderColor[id], 0.0f, 0.0f, 1.0f};
     glBindTexture(GL_TEXTURE_2D, m_texture_id[id]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+#if defined(PLATFORM_ANDROID) || defined(PLATFORM_IOS)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    GLfloat borderColorInternal[] = {0.0f, 0.0f, 0.0f, 1.0f}; // Example border color
+    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColorInternal);
+#else
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    GLfloat borderColorInternal[] = {borderColor[id], 0.0f, 0.0f, 1.0f};
     glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColorInternal);
+#endif
     textureWidth[id] = m_frame_width / currentPlanes[id][1];
     textureHeight[id] = m_frame_height / currentPlanes[id][2];
     glTexImage2D(GL_TEXTURE_2D, 0, currentPlanes[id][3], textureWidth[id], textureHeight[id],

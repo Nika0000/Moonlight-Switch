@@ -5,7 +5,7 @@
 //  Created by Даниил Виноградов on 03.06.2021.
 //
 
-#include "grid_view.hpp"
+#include "view/grid_view.hpp"
 
 GridView::GridView() : Box(Axis::COLUMN), columls(7) {}
 

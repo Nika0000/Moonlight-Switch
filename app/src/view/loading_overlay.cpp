@@ -5,7 +5,7 @@
 //  Created by Даниил Виноградов on 02.06.2021.
 //
 
-#include "loading_overlay.hpp"
+#include "view/loading_overlay.hpp"
 
 const std::string loadingOverlayXML = R"xml(
 <brls:Box

@@ -5,10 +5,10 @@
 //  Created by XITRIX on 26.05.2021.
 //
 
-#include "add_host_tab.hpp"
+#include "fragment/add_host_tab.hpp"
 #include "DiscoverManager.hpp"
-#include "helper.hpp"
-#include "main_tabs_view.hpp"
+#include "utils/helper.hpp"
+#include "view/main_tabs_view.hpp"
 
 #if defined(PLATFORM_IOS) || defined(PLATFORM_TVOS)
 extern void darwin_mdns_start(ServerCallback<std::vector<Host>>& callback);

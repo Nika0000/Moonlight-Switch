@@ -5,7 +5,7 @@
 //  Created by Даниил Виноградов on 09.01.2022.
 //
 
-#include "keyboard_view.hpp"
+#include "view/keyboard_view.hpp"
 
 void KeyboardView::createLocales() {
     locales.clear();

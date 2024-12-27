@@ -9,10 +9,10 @@
 #include <borealis/platforms/switch/switch_input.hpp>
 #endif
 
-#include "helper.hpp"
-#include "ingame_overlay_view.hpp"
-#include "streaming_input_overlay.hpp"
-#include "button_selecting_dialog.hpp"
+#include "utils/helper.hpp"
+#include "view/ingame_overlay_view.hpp"
+#include "view/streaming_input_overlay.hpp"
+#include "fragment/button_selecting_dialog.hpp"
 #include <libretro-common/retro_timers.h>
 
 #include <iomanip>

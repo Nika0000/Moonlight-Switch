@@ -5,11 +5,11 @@
 //  Created by XITRIX on 26.05.2021.
 //
 
-#include "host_tab.hpp"
+#include "fragment/host_tab.hpp"
 #include "GameStreamClient.hpp"
-#include "app_list_view.hpp"
-#include "helper.hpp"
-#include "main_tabs_view.hpp"
+#include "view/app_list_view.hpp"
+#include "utils/helper.hpp"
+#include "view/main_tabs_view.hpp"
 
 using namespace brls::literals;
 

@@ -1,5 +1,5 @@
 //
-//  streaming_view.hpp
+//   .hpp
 //  Moonlight
 //
 //  Created by Даниил Виноградов on 27.05.2021.
@@ -9,7 +9,7 @@
 
 #include "gestures/fingers_gesture_recognizer.hpp"
 #include "keyboard_view.hpp"
-#include "loading_overlay.hpp"
+#include "view/loading_overlay.hpp"
 #include <Settings.hpp>
 #include <borealis.hpp>
 #include <optional>

@@ -6,7 +6,7 @@
 //
 
 #include "Settings.hpp"
-#include "keyboard_view.hpp"
+#include "view/keyboard_view.hpp"
 
 using namespace brls;
 

@@ -16,6 +16,8 @@ if (NOT MULTICAST_DISABLED)
     add_subdirectory(mdns)
 endif ()
 
+add_subdirectory(lunasvg EXCLUDE_FROM_ALL)
+
 #include(FindPkgConfig)
 #find_package(PkgConfig REQUIRED)
 #pkg_check_modules(LIBAV REQUIRED

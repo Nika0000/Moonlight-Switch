@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "grid_view.hpp"
+#include "view/grid_view.hpp"
 #include <Settings.hpp>
 #include <borealis.hpp>
 

@@ -5,7 +5,7 @@
 //  Created by Даниил Виноградов on 25.08.2021.
 //
 
-#include "streaming_input_overlay.hpp"
+#include "view/streaming_input_overlay.hpp"
 #include <Limelight.h>
 
 using namespace brls;

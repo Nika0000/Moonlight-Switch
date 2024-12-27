@@ -9,11 +9,11 @@
 #include <borealis/platforms/switch/switch_input.hpp>
 #endif
 
-#include "settings_tab.hpp"
+#include "fragment/settings_tab.hpp"
 #include "Settings.hpp"
-#include "helper.hpp"
-#include "button_selecting_dialog.hpp"
-#include "mapping_layout_editor.hpp"
+#include "utils/helper.hpp"
+#include "fragment/button_selecting_dialog.hpp"
+#include "view/mapping_layout_editor.hpp"
 #include <iomanip>
 #include <sstream>
 

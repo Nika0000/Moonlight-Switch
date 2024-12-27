@@ -41,7 +41,8 @@
             "name": "Windows",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/build/vcpkg_installed/x64-windows/include"
+                "${workspaceFolder}/build/vcpkg_installed/x64-windows/include",
+                "${workspaceFolder}/extern/lunasvg/include"
             ],
             "defines": [
                 "_DEBUG",
@@ -50,15 +51,14 @@
                 "USE_D3D11_RENDERER",
                 "_WIN32",
                 "PLATFORM_DESKTOP",
-                "USE_OPENSSL_CRYPTO"
+                "USE_OPENSSL_CRYPTO",
+                "USE_LIBROMFS"
             ],
             "windowsSdkVersion": "10.0.22621.0",
             "compilerPath": "C:/ProgramData/mingw64/mingw64/bin/gcc.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-clang-x64"
-  
-          
         }
     ],
     "version": 4

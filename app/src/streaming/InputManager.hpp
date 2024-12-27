@@ -8,7 +8,7 @@
 #pragma once
 
 #include "Singleton.hpp"
-#include "keyboard_view.hpp"
+#include "view/keyboard_view.hpp"
 #include <borealis.hpp>
 #include <optional>
 

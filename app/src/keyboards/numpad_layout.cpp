@@ -5,7 +5,7 @@
 //  Created by Даниил Виноградов on 22.06.2021.
 //
 
-#include "keyboard_view.hpp"
+#include "view/keyboard_view.hpp"
 
 using namespace brls;
 

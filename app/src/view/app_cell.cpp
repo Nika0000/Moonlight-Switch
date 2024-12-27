@@ -5,11 +5,11 @@
 //  Created by Даниил Виноградов on 03.06.2021.
 //
 
-#include "app_cell.hpp"
+#include "view/app_cell.hpp"
 #include "BoxArtManager.hpp"
 #include "Settings.hpp"
-#include "main_tabs_view.hpp"
-#include "streaming_view.hpp"
+#include "view/main_tabs_view.hpp"
+#include "view/streaming_view.hpp"
 
 AppCell::AppCell(Host host, AppInfo app, int currentApp) {
     this->inflateFromXMLRes("xml/cells/app_cell.xml");

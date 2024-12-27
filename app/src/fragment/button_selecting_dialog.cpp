@@ -5,7 +5,7 @@
 //  Created by Даниил Виноградов on 19.07.2021.
 //
 
-#include "button_selecting_dialog.hpp"
+#include "fragment/button_selecting_dialog.hpp"
 #include "Settings.hpp"
 
 ButtonSelectingDialog::ButtonSelectingDialog(

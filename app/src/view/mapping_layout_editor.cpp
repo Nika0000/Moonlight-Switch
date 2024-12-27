@@ -5,10 +5,10 @@
 //  Created by Даниил Виноградов on 09.10.2021.
 //
 
-#include "mapping_layout_editor.hpp"
+#include "view/mapping_layout_editor.hpp"
 
 #include <utility>
-#include "button_selecting_dialog.hpp"
+#include "fragment/button_selecting_dialog.hpp"
 
 //#include <borealis/platforms/switch/swkbd.hpp>
 

@@ -162,7 +162,7 @@ if (PLATFORM_DESKTOP)
         )
     endif ()
 
-    if(NOT WIN32)
+    if(PLATFORM_MACOS)
         list(APPEND google_angle_libs 
             ${CMAKE_CURRENT_SOURCE_DIR}/extern/borealis/library/lib/extern/angle/mac/libEGL.dylib
             ${CMAKE_CURRENT_SOURCE_DIR}/extern/borealis/library/lib/extern/angle/mac/libGLESv2.dylib
@@ -271,6 +271,9 @@ endif ()
 target_include_directories(${PROJECT_NAME} PUBLIC
         app/include
         app/include/gestures
+        app/src/activity
+        app/src/fragment
+        app/src/view
         app/src/crypto
         app/src/gestures
         app/src/keyboards
@@ -337,6 +340,7 @@ endif ()
 target_link_libraries(${PROJECT_NAME} PRIVATE
         borealis
         moonlight-common-c
+        lunasvg
         Jansson::Jansson
         EXPAT::EXPAT
         ${AVCODEC_LIBRARY}

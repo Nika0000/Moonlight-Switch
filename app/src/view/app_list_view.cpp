@@ -5,10 +5,10 @@
 //  Created by XITRIX on 26.05.2021.
 //
 
-#include "app_list_view.hpp"
-#include "helper.hpp"
-#include "main_tabs_view.hpp"
-#include "streaming_view.hpp"
+#include "view/app_list_view.hpp"
+#include "utils/helper.hpp"
+#include "view/main_tabs_view.hpp"
+#include "view/streaming_view.hpp"
 
 AppListView::AppListView(Host host) : host(host) {
     this->inflateFromXMLRes("xml/views/app_list_view.xml");

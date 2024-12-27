@@ -5,9 +5,9 @@
 //  Created by Даниил Виноградов on 24.09.2021.
 //
 
-#include "favorite_tab.hpp"
-#include "app_cell.hpp"
-#include "main_tabs_view.hpp"
+#include "fragment/favorite_tab.hpp"
+#include "view/app_cell.hpp"
+#include "view/main_tabs_view.hpp"
 
 using namespace brls;
 using namespace brls::literals;
